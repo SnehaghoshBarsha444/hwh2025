@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BhuYatra - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            flex-direction: row-reverse;
+        }
+        
+        .form-section {
+            flex: 1;
+            background: #ffffff;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 300px;
+        }
+        
+        h1 {
+            font-size: clamp(20px, 4vw, 24px);
+            color: #555;
+        }
+        
+        h2 {
+            font-size: clamp(28px, 5vw, 36px);
+            margin: 20px 0;
+        }
+        
+        .social-login {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .social-login button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background-color: #f5f5f5;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .social-login button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        form {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #2d6a4f;
+        }
+        
+        .login-btn {
+            padding: 12px;
+            background-color: #2d6a4f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: #1b4332;
+        }
+        
+        .signup-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .signup-link a {
+            text-decoration: none;
+            color: #2d6a4f;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        .signup-link a:hover {
+            color: #1b4332;
+        }
+        
+        .image-section {
+            flex: 1.5;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 30px 30px 0;
+            animation: slideFromLeft 0.5s ease-out;
+        }
+        
+        @keyframes slideFromLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+        
+        .image-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .info-tag {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        
+        .info-tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .top-left {
+            top: 20px;
+            left: 20px;
+        }
+        
+        .middle-right {
+            top: 40%;
+            right: 20px;
+        }
+        
+        .bottom-center {
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column-reverse;
+            }
+            
+            .image-section {
+                flex: 1;
+                min-height: 300px;
+                border-radius: 0 0 30px 30px;
+            }
+            
+            .form-section {
+                padding: 1.5rem;
+            }
+            
+            .info-tag {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <h1>BhuYatra</h1>
+            <h2>Welcome <br> back!</h2>
+            <div class="social-login">
+                <button>G</button>
+                <button>f</button>
+                <button>in</button>
+            </div>
+            <p>or</p>
+            <form id="loginForm">
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <p class="signup-link">Don't have an account? <a href="signup.html">Sign up</a></p>
+        </div>
+        <div class="image-section">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Travel Path">
+            <div class="info-tag top-left">
+                <h4>Villa Mexica</h4>
+                <p>Scenic Village</p>
+            </div>
+            <div class="info-tag middle-right">
+                <h4>1.2 km</h4>
+                <p>Keep going!</p>
+            </div>
+            <div class="info-tag bottom-center">
+                <h4>Gringo Trail</h4>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.signup-link a').addEventListener('click', function(e) {
+            e.preventDefault();
+            const imageSection = document.querySelector('.image-section');
+            imageSection.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                window.location.href = 'signup.html';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
