@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BhuYatra - Welcome</title>
+    <style>
+        /* Common Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            position: relative; /* For positioning view containers */
+        }
+
+        /* View Container Logic */
+        .view-container {
+            display: none; /* Hidden by default */
+            min-height: 100vh;
+            width: 100%;
+            position: absolute; /* Stack them */
+            top: 0;
+            left: 0;
+        }
+        .view-container.active-view {
+            display: block; /* Show active view */
+        }
+        
+        /* General Container for form + image */
+        .container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Specific container styles */
+        .login-view-style .container {
+            flex-direction: row-reverse;
+        }
+        .signup-view-style .container {
+            flex-direction: row; /* Default */
+        }
+
+        .form-section {
+            flex: 1;
+            background: #ffffff;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 300px;
+            z-index: 1; /* Ensure form is above image during transitions if overlapping */
+        }
+        
+        h1 {
+            font-size: clamp(20px, 4vw, 24px);
+            color: #555;
+        }
+        
+        h2 {
+            font-size: clamp(28px, 5vw, 36px);
+            margin: 20px 0;
+        }
+        
+        .social-login {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .social-login button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background-color: #f5f5f5;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .social-login button:hover {
+            background-color: #e0e0e0;
+        }
+        
+        form {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #2d6a4f;
+        }
+        
+        .action-btn { /* Common style for login/start buttons */
+            padding: 12px;
+            background-color: #2d6a4f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .action-btn:hover {
+            background-color: #1b4332;
+        }
+        
+        .form-link { /* Common style for signup/login links */
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .form-link a {
+            text-decoration: none;
+            color: #2d6a4f;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        .form-link a:hover {
+            color: #1b4332;
+        }
+        
+        .image-section {
+            flex: 1.5;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s ease-out; /* For JS animations */
+        }
+        
+        .login-view-style .image-section {
+            border-radius: 0 30px 30px 0;
+        }
+        
+        .signup-view-style .image-section {
+            border-radius: 30px 0 0 30px;
+        }
+        
+        .image-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .info-tag {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        
+        .info-tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .top-left { top: 20px; left: 20px; }
+        .middle-right { top: 40%; right: 20px; }
+        .bottom-center { bottom: 30px; left: 50%; transform: translateX(-50%); }
+
+        @media (max-width: 768px) {
+            .container { /* Applies to both login and signup containers */
+                flex-direction: column-reverse;
+            }
+            
+            .image-section { /* Applies to both login and signup image sections */
+                flex: 1;
+                min-height: 300px;
+                border-radius: 0 0 30px 30px; /* Common for mobile */
+            }
+            
+            .form-section {
+                padding: 1.5rem;
+            }
+            
+            .info-tag {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Login View -->
+    <div id="loginView" class="view-container login-view-style active-view">
+        <div class="container">
+            <div class="form-section">
+                <h1>BhuYatra</h1>
+                <h2>Welcome <br> back!</h2>
+                <div class="social-login">
+                    <button>G</button>
+                    <button>f</button>
+                    <button>in</button>
+                </div>
+                <p>or</p>
+                <form id="loginForm">
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <button type="submit" class="action-btn">Login</button>
+                </form>
+                <p class="form-link">Don't have an account? <a href="#" id="goToSignup">Sign up</a></p>
+            </div>
+            <div class="image-section">
+                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Travel Path">
+                <div class="info-tag top-left"><h4>Villa Mexica</h4><p>Scenic Village</p></div>
+                <div class="info-tag middle-right"><h4>1.2 km</h4><p>Keep going!</p></div>
+                <div class="info-tag bottom-center"><h4>Gringo Trail</h4></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup View -->
+    <div id="signupView" class="view-container signup-view-style">
+        <div class="container">
+            <div class="form-section">
+                <h1>BhuYatra</h1>
+                <h2>Start your <br> perfect trip</h2>
+                <div class="social-login">
+                    <button>G</button>
+                    <button>f</button>
+                    <button>in</button>
+                </div>
+                <p>or</p>
+                <form id="signupForm">
+                    <input type="text" id="signupFullname" placeholder="Full name" required>
+                    <input type="email" id="signupEmail" placeholder="Email" required>
+                    <input type="password" id="signupPassword" placeholder="Password" required>
+                    <button type="submit" class="action-btn">Start</button>
+                </form>
+                <p class="form-link">Already have an account? <a href="#" id="goToLogin">Log in</a></p>
+            </div>
+            <div class="image-section">
+                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Travel Path">
+                <div class="info-tag top-left"><h4>Villa Mexica</h4><p>Scenic Village</p></div>
+                <div class="info-tag middle-right"><h4>1.2 km</h4><p>Keep going!</p></div>
+                <div class="info-tag bottom-center"><h4>Gringo Trail</h4></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+    BedrockPassportProvider Integration (Conceptual for React):
+
+    If this were a React application, you would structure it something like this:
+
+    // main.jsx or App.jsx
+    import React from 'react';
+    import ReactDOM from 'react-dom/client';
+    import App from './App'; // Your main App component
+    import { BedrockPassportProvider } from '@bedrock'; // Assuming package name
+
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <React.StrictMode>
+        <BedrockPassportProvider
+          baseUrl="https://api.bedrockpassport.com"
+          authCallbackUrl="http://<yoururl>/auth/callback" // Replace <yoururl>
+          tenantId="orange-i2jrbcqnhf" 
+        >
+          <App />
+        </BedrockPassportProvider>
+      </React.StrictMode>
+    );
+
+    // App.jsx
+    // function App() {
+    //   // Logic to show Login or Signup components based on state
+    //   // These components would contain the form HTML structure above
+    //   // And use Bedrock Passport hooks for authentication
+    //   return (
+    //     <div>
+    //       {isLoginPage ? <LoginComponent /> : <SignupComponent />}
+    //     </div>
+    //   );
+    // }
+    // export default App;
+
+    The BedrockPassportProvider wraps your entire application, providing authentication
+    context and functions (hooks) that your Login and Signup components can use to
+    handle user authentication with the "Orange Code" (Orange tenant).
+    The actual authentication calls (e.g., on form submit) would use functions provided
+    by the Bedrock Passport SDK within your React components, not standard form submissions.
+    -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginView = document.getElementById('loginView');
+            const signupView = document.getElementById('signupView');
+            const goToSignupLink = document.getElementById('goToSignup');
+            const goToLoginLink = document.getElementById('goToLogin');
+
+            const loginImageSection = loginView.querySelector('.image-section');
+            const signupImageSection = signupView.querySelector('.image-section');
+
+            // Function to set initial state and trigger first animation
+            function initializeTransitions() {
+                // Login view is active by default. Animate its image in.
+                loginImageSection.style.transform = 'translateX(-100%)'; // Start off-screen left
+                
+                // Ensure transition is applied for the first animation
+                // We need a slight delay or next frame for the transform to take effect before transition starts
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => { // Start animation on the next available frame
+                        loginImageSection.style.transform = 'translateX(0)'; // Slide in
+                    });
+                });
+
+                // Signup image is ready but its view is hidden.
+                signupImageSection.style.transform = 'translateX(0)';
+            }
+
+            initializeTransitions(); // Call on load
+
+            goToSignupLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                loginImageSection.style.transform = 'translateX(100%)'; // Slide login image out to the right
+
+                setTimeout(() => {
+                    loginView.classList.remove('active-view');
+                    signupView.classList.add('active-view');
+                    
+                    // Prepare signup image for entry (slide in from right)
+                    signupImageSection.style.transform = 'translateX(100%)'; // Position off-screen right
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            signupImageSection.style.transform = 'translateX(0)'; // Slide in
+                        });
+                    });
+                }, 500); // Match CSS transition duration
+            });
+
+            goToLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                signupImageSection.style.transform = 'translateX(-100%)'; // Slide signup image out to the left
+
+                setTimeout(() => {
+                    signupView.classList.remove('active-view');
+                    loginView.classList.add('active-view');
+
+                    // Prepare login image for entry (slide in from left)
+                    loginImageSection.style.transform = 'translateX(-100%)'; // Position off-screen left
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                             loginImageSection.style.transform = 'translateX(0)'; // Slide in
+                        });
+                    });
+                }, 500); // Match CSS transition duration
+            });
+
+            // Handle form submissions (basic example, prevent default)
+            // In a real app, you'd send data to a server or use Bedrock Passport for auth
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // const email = document.getElementById('loginEmail').value;
+                // const password = document.getElementById('loginPassword').value;
+                // console.log('Login attempt:', email, password);
+                alert('Login form submitted (no actual auth implemented here).');
+            });
+
+            document.getElementById('signupForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // const fullname = document.getElementById('signupFullname').value;
+                // const email = document.getElementById('signupEmail').value;
+                // const password = document.getElementById('signupPassword').value;
+                // console.log('Signup attempt:', fullname, email, password);
+                alert('Signup form submitted (no actual auth implemented here).');
+            });
+        });
+    </script>
+</body>
+</html>
